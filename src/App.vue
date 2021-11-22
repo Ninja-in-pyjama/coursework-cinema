@@ -1,6 +1,20 @@
 <template>
   <div class="header">
-    <nav-bar class="bg-secondary nav-bar" :routes="routes" />
+    <nav-bar class="bg-secondary nav-bar">
+      <nav-item to="/">Головна</nav-item>
+      <nav-item to="/aurthor">Автор</nav-item>
+
+      <template v-if="isAuth">
+        <span class="logout" @click="logoutHandler">Вийти</span>
+      </template>
+      <template v-else>
+        <nav-item to="/auth">Увійти</nav-item>
+      </template>
+
+      <template v-if="isAuth && isAdmin">
+        <nav-item to="/dashboard/movies">Керування</nav-item>
+      </template>
+    </nav-bar>
   </div>
   <main class="container-fluid w-100 mx-auto">
     <router-view />
@@ -8,17 +22,30 @@
 </template>
 <script>
 import { defineAsyncComponent } from "vue";
-import { routes } from "@/views/main/setup";
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
   components: {
+    NavItem: defineAsyncComponent(() => import("@/components/nav/NavItem")),
     NavBar: defineAsyncComponent(() => import("@/components/nav/NavBar")),
   },
 
-  data() {
-    return {
-      routes,
-    };
+  computed: {
+    ...mapGetters({
+      isAuth: "auth/isAuth",
+      isAdmin: "auth/isAdmin",
+    }),
+  },
+
+  methods: {
+    ...mapMutations({
+      setAuth: "auth/setAuth",
+      setAdmin: "auth/setAdmin",
+    }),
+    logoutHandler() {
+      this.setAdmin(false);
+      this.setAuth(false);
+    },
   },
 };
 </script>
@@ -36,5 +63,10 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.logout {
+  cursor: pointer;
+  color: black;
 }
 </style>

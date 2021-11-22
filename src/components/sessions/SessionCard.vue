@@ -1,13 +1,25 @@
 <template>
   <div class="session__card">
-    <div class="session__time">16:45</div>
-    <div class="session__type">3D</div>
+    <div class="session__time">
+      {{ new Date(time).getHours() }}:{{ new Date(time).getMinutes() }}
+    </div>
+    <div class="session__type">{{ type }}</div>
   </div>
 </template>
 
 <script>
 export default {
   name: "SessionCard",
+  props: {
+    time: {
+      type: String,
+      default: "12:00",
+    },
+    type: {
+      type: String,
+      default: "3D",
+    },
+  },
 };
 </script>
 

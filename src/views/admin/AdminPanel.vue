@@ -1,6 +1,9 @@
 <template>
   <div class="admin-panel row">
-    <nav-bar class="sidebar col-2" :routes="routes"/>
+    <nav-bar class="sidebar col-2">
+      <nav-item to="/dashboard/movies">Фільми</nav-item>
+      <nav-item to="/dashboard/sessions">Сеанси</nav-item>
+    </nav-bar>
     <div class="content col-10">
       <router-view></router-view>
     </div>
@@ -9,17 +12,18 @@
 
 <script>
 import NavBar from "@/components/nav/NavBar";
-import {routes} from "@/views/admin/setup";
+import { routes } from "@/views/admin/setup";
+import NavItem from "@/components/nav/NavItem";
 
 export default {
   name: "AdminPanel",
-  components: { NavBar },
+  components: { NavItem, NavBar },
   data() {
     return {
       routes,
-    }
+    };
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -28,7 +32,6 @@ export default {
   border-radius: 0 0 20px 20px;
   overflow: hidden;
 }
-
 
 .sidebar {
   display: flex;

@@ -58,7 +58,7 @@
         </div>
       </div>
       <div class="col-3">
-        <sessions-card />
+        <sessions-card :sessions="sessions" />
       </div>
     </div>
   </div>
@@ -68,12 +68,19 @@
 import { mapGetters, mapActions } from "vuex";
 import MovieImage from "@/components/MovieImage";
 import SessionsCard from "@/components/sessions/SessionsCard";
+import request from "@/api/axios";
 
 export default {
   name: "MovieInfo",
   components: {
     SessionsCard,
     MovieImage,
+  },
+
+  data() {
+    return {
+      sessions: [],
+    };
   },
 
   computed: {
@@ -92,6 +99,9 @@ export default {
     const movieId = this.$route.params.id;
     if (movieId) {
       await this.fetchMovie(movieId);
+
+      const { data } = await request.get(`/movies/session/${movieId}`);
+      this.sessions = data;
     }
   },
 };

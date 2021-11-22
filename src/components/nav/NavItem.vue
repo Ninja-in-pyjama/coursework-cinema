@@ -11,12 +11,19 @@ export default {
   props: {
     to: {
       type: String,
-      required: true
-    }
-  }
-}
+      required: true,
+    },
+  },
+};
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+a {
+  padding: 10px;
+  text-decoration: none;
+  color: black;
+}
+.router-link-active {
+  color: #2ca2d9;
+}
 </style>

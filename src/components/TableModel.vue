@@ -1,39 +1,41 @@
 <template>
   <table class="table">
     <thead>
-    <tr>
-      <th>#</th>
-      <th v-for="({name, index}) in columns" :key="`thead-th-${index}`">
-        {{ name }}
-      </th>
-      <th v-if="actions.length">Дії</th>
-    </tr>
+      <tr>
+        <th>#</th>
+
+        <slot name="th"></slot>
+
+        <th v-for="{ name, index } in columns" :key="`thead-th-${index}`">
+          {{ name }}
+        </th>
+        <th v-if="actions.length">Дії</th>
+      </tr>
     </thead>
     <tbody>
-    <tr v-for="(item, index) in data" :key="`tbody-tr-${index}`">
-      <td>{{ index + 1 }}</td>
+      <tr v-for="(item, index) in data" :key="`tbody-tr-${index}`">
+        <td>{{ index + 1 }}</td>
 
-      <td v-for="({key}, idx) in columns" :key="`tbody-td-${index + idx}`">
-        {{ item[key] }}
-      </td>
+        <slot name="td" :movieId="item.movieId"></slot>
 
-      <template v-if="actions.length">
-<!--        <td v-for="({actionName, className, emit, keyItem}, idx) in actions" :key="`tbody-td-actions-${index + idx}`">-->
-<!--          <button :class="className" @click="$emit(emit, { id: item[keyItem] })">-->
-<!--            {{ actionName }}-->
-<!--          </button>-->
-<!--        </td>-->
-        <td>
-          <button
-              v-for="({actionName, className, emit, keyItem}, idx) in actions" :key="`tbody-td-actions-${index + idx}`"
+        <td v-for="({ key }, idx) in columns" :key="`tbody-td-${index + idx}`">
+          {{ item[key] }}
+        </td>
+
+        <template v-if="actions.length">
+          <td>
+            <button
+              v-for="({ actionName, className, emit, keyItem }, idx) in actions"
+              :key="`tbody-td-actions-${index + idx}`"
               :class="className"
               class="me-2"
-              @click="$emit(emit, { id: item[keyItem] })">
-            {{ actionName }}
-          </button>
-        </td>
-      </template>
-    </tr>
+              @click="$emit(emit, { id: item[keyItem] })"
+            >
+              {{ actionName }}
+            </button>
+          </td>
+        </template>
+      </tr>
     </tbody>
   </table>
 </template>
@@ -46,24 +48,22 @@ export default {
     columns: {
       type: Array,
       required: true,
-      default: () => []
+      default: () => [],
     },
 
     actions: {
       type: Array,
       required: true,
-      default: () => []
+      default: () => [],
     },
 
     data: {
       type: Object,
       require: true,
-      default: () => {}
-    }
+      default: () => {},
+    },
   },
-}
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
